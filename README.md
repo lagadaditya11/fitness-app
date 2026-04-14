@@ -8,4 +8,4 @@ A simple fitness tracking app.
 - Diet logging (future)
 
 ## Tech Stack
-- (decide later: Python / fastapi / React etc.)
+- (decide later: Python / Fastapi / React etc.)
