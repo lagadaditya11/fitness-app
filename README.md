@@ -7,5 +7,3 @@ A simple fitness tracking app.
 - Progress monitoring
 - Diet logging (future)
 
-## Tech Stack
-- (decide later: Python / Fastapi / React etc.)
