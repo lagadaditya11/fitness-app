@@ -27,7 +27,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex) {
+        // Never leak internal details to clients; log server-side instead.
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("error", ex.getMessage(), "timestamp", Instant.now().toString()));
+                .body(Map.of(
+                        "error", "An unexpected error occurred. Please try again later.",
+                        "timestamp", Instant.now().toString()
+                ));
     }
 }

@@ -161,6 +161,25 @@ Open **http://localhost:5173**, register an account, and start logging.
 > The app seeds a starter food database (chicken, rice, eggs…) and exercise library
 > (squat, bench press…) automatically on first launch (`config/DataSeeder.java`).
 
+### Configuration (environment variables)
+
+| Variable | Where | Default | Purpose |
+|---|---|---|---|
+| `DB_URL` | backend | `jdbc:postgresql://localhost:5432/fitness` | Postgres connection string |
+| `DB_USER` / `DB_PASSWORD` | backend | `fitness` / `fitness` | Database credentials |
+| `JWT_SECRET` | backend | dev fallback | **Required in prod** — 32+ chars (`openssl rand -base64 48`) |
+| `CORS_ALLOWED_ORIGINS` | backend | `http://localhost:5173` | Allowed frontend origins |
+| `VITE_API_URL` | frontend | *(empty — uses Vite proxy)* | Backend base URL in production |
+
+### Deploying
+
+- **Frontend → Vercel**: import the repo, set root directory to `frontend/`.
+  Vercel auto-detects Vite. Set `VITE_API_URL` to your backend's public URL.
+- **Backend + Postgres**: host anywhere that runs Java (Render, Railway, Fly.io…).
+  Provide `DB_URL`, `DB_USER`, `DB_PASSWORD`, `JWT_SECRET` and
+  `CORS_ALLOWED_ORIGINS=https://<your-vercel-domain>`. The `/actuator/health`
+  endpoint is available for health checks.
+
 ---
 
 ## 9. API reference (brief)

@@ -1,6 +1,6 @@
 package com.fitness.tracker.profile;
 
-import com.fitness.tracker.user.User;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,7 +26,7 @@ public class ProfileController {
     }
 
     @PutMapping
-    public ResponseEntity<User> update(@RequestBody User updates) {
-        return ResponseEntity.ok(profileService.update(updates));
+    public ResponseEntity<ProfileView> update(@Valid @RequestBody ProfileUpdateRequest updates) {
+        return ResponseEntity.ok(ProfileView.of(profileService.update(updates)));
     }
 }

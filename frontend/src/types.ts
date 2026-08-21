@@ -78,3 +78,8 @@ export interface DayPoint {
   caloriesBurned: number
   goal: number
 }
+
+export interface WeightPoint {
+  date: string
+  weightKg: number
+}

@@ -3,20 +3,48 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/fitness
-    username: fitness
-    password: fitness
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/fitness}
+    username: ${DB_USER:fitness}
+    password: ${DB_PASSWORD:fitness}
   jpa:
     hibernate:
       ddl-auto: update
     open-in-view: false
-    properties:
-      hibernate:
-        format_sql: true
   jackson:
     default-property-inclusion: non_null
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
 
 app:
   jwt:
     secret: ${JWT_SECRET:change-this-secret-to-a-long-random-value-in-production-please-32bytes}
-    expiration-ms: 86400000
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show-sql: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+app:
+  jwt:
+    # Refuse to boot with the default secret in production
+    secret: ${JWT_SECRET:}

@@ -25,13 +25,14 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.findByEmail(request.email()).isPresent()) {
+        String email = request.email().trim().toLowerCase();
+        if (userRepository.findByEmail(email).isPresent()) {
             throw new IllegalArgumentException("Email already registered");
         }
         User user = new User();
-        user.setEmail(request.email());
+        user.setEmail(email);
         user.setPassword(passwordEncoder.encode(request.password()));
-        user.setDisplayName(request.displayName());
+        user.setDisplayName(request.displayName().trim());
         if (request.heightCm() != null) user.setHeightCm(request.heightCm());
         if (request.weightKg() != null) user.setWeightKg(request.weightKg());
         if (request.age() != null) user.setAge(request.age());
@@ -42,9 +43,10 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
+        String email = request.email().trim().toLowerCase();
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.email(), request.password()));
-        User user = userRepository.findByEmail(request.email())
+                new UsernamePasswordAuthenticationToken(email, request.password()));
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
         return new AuthResponse(jwtService.generateToken(user.getId(), user.getEmail()), user.getEmail(), user.getDisplayName());
     }

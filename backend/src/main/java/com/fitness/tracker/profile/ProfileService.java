@@ -18,15 +18,15 @@ public class ProfileService {
         this.currentUser = currentUser;
     }
 
-    public User update(User updates) {
+    public User update(ProfileUpdateRequest updates) {
         User user = currentUser.get();
-        if (updates.getHeightCm() != null) user.setHeightCm(updates.getHeightCm());
-        if (updates.getWeightKg() != null) user.setWeightKg(updates.getWeightKg());
-        if (updates.getAge() != null) user.setAge(updates.getAge());
-        if (updates.getSex() != null) user.setSex(updates.getSex());
-        if (updates.getActivityLevel() != null) user.setActivityLevel(updates.getActivityLevel());
-        if (updates.getDisplayName() != null) user.setDisplayName(updates.getDisplayName());
-        if (updates.getCustomDailyCalories() != null) user.setCustomDailyCalories(updates.getCustomDailyCalories());
+        if (updates.displayName() != null && !updates.displayName().isBlank()) user.setDisplayName(updates.displayName().trim());
+        if (updates.heightCm() != null) user.setHeightCm(updates.heightCm());
+        if (updates.weightKg() != null) user.setWeightKg(updates.weightKg());
+        if (updates.age() != null) user.setAge(updates.age());
+        if (updates.sex() != null) user.setSex(updates.sex());
+        if (updates.activityLevel() != null) user.setActivityLevel(updates.activityLevel());
+        if (updates.customDailyCalories() != null) user.setCustomDailyCalories(updates.customDailyCalories());
         return userRepository.save(user);
     }
 
